@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="stock_master_planning_search_view">
+            <field name="name">stock.master.planning.search.view</field>
+            <field name="model">stock.master.planning</field>
+            <field name="arch" type="xml">
+                <search string="Search Stock Master Planning">
+                    <field name="name" />
+                    <field name="warehouse_id" />
+                    <group string="Group By">
+                        <filter string="State" context="{'group_by': 'state'}"/>
+                        <filter string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_master_planning_tree_view" >
+            <field name="name">stock.master.planning.tree.view</field>
+            <field name="model">stock.master.planning</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='draft'" string="Stock Master Plannings">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="period_type"/>
+                    <field name="period_count"/>
+                    <field name="warehouse_id"/>
+                    <field name="state"/>
+                    <field name="last_compute_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_master_planning_form_view" >
+            <field name="name">stock.master.planning.form.view</field>
+            <field name="model">stock.master.planning</field>
+            <field name="arch" type="xml">
+                <form string="Sales Order">
+                    <header>
+                        <button name="action_create_periods" string="Create periods" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <label for="name"/>
+                            <field name="name" class="oe_inline" colspan="4"/>
+                        </h1>
+                        <group col="4" colspan="4">
+                            <group col="2" colspan="2">
+                                <field name="start_date"/>
+                                <field name="period_type"/>
+                                <field name="last_compute_date"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="warehouse_id"/>
+                                <field name="period_count"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Products" colspan="4">
+                                <field name="product_ids" nolabel="1" colspan="4"/>
+                            </page>
+                            <page string="Periods" colspan="4">
+                                <field name="period_ids" nolabel="1" colspan="4">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="start_date"/>
+                                            <field name="end_date"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Demands" colspan="4">
+                                <field name="demand_ids" nolabel="1" colspan="4">
+                                    <tree editable="1">
+                                        <field name="product_id"/>
+                                        <field name="period_id"/>
+                                        <field name="product_qty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_stock_master_planning">
+            <field name="name">Stock Planning</field>
+            <field name="res_model">stock.master.planning</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="stock_master_planning_menu" name="Stock Planning"
+            parent="stock.menu_stock_sched" action="action_stock_master_planning" sequence="77"/>
+
+    </data>
+</openerp>
