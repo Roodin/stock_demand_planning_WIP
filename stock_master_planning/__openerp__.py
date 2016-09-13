@@ -27,7 +27,8 @@
     'depends': ['sale',
                 'purchase',
                 'stock'],
-    'data': ['views/stock_master_planning_view.xml',
+    'data': ['views/stock_planning_detail_view.xml',
+             'views/stock_master_planning_view.xml',
              'security/ir.model.access.csv'],
     'installable': True,
 }

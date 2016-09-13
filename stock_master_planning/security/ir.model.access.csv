@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_stock_planning_period,stock.planning.period manager,model_stock_planning_period,stock.group_stock_manager,1,1,1,1
 access_stock_demand,stock.demand manager,model_stock_demand,stock.group_stock_manager,1,1,1,1
 access_stock_master_planning,stock.master.planning manager,model_stock_master_planning,stock.group_stock_manager,1,1,1,1
+access_stock_planning_detail,stock.planning.detail manager,model_stock_planning_detail,stock.group_stock_manager,1,1,1,1

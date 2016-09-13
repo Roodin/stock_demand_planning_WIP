@@ -19,3 +19,7 @@ class StockDemand(models.Model):
                                 required=True)
     product_qty = fields.Float("Qty.", digits_compute=
                                dp.get_precision('Product Unit of Measure'))
+    demand_type = fields.Selection([('direct', 'Direct'),
+                                    ('indirect', 'Indirect')], "Type",
+                                   required=True, readonly=True,
+                                   default="direct")

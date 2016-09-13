@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="stock_planning_detail_search_view">
+            <field name="name">stock.planning.detail.search.view</field>
+            <field name="model">stock.planning.detail</field>
+            <field name="arch" type="xml">
+                <search string="Search Stock Planning Detail">
+                    <field name="product_id" />
+                    <field name="category_id" />
+                    <group string="Group By">
+                        <filter string="Product" context="{'group_by': 'product_id'}" name="productgroup"/>
+                        <filter string="Category" context="{'group_by': 'category_id'}"/>
+                        <filter string="Period" context="{'group_by': 'period_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_planning_detail_tree_view" >
+            <field name="name">stock.planning.detail.tree.view</field>
+            <field name="model">stock.planning.detail</field>
+            <field name="arch" type="xml">
+                <tree string="Stock Planning Details" create="0" delete="0">
+                    <field name="product_id"/>
+                    <field name="period_id"/>
+                    <field name="qty_available"/>
+                    <field name="incoming_qty"/>
+                    <field name="outgoing_qty"/>
+                    <field name="demand_qty"/>
+                    <field name="expected_qty"/>
+                    <field name="needed_qty"/>
+                    <field name="category_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_master_planning_2_details" model="ir.actions.act_window">
+            <field name="name">Planning</field>
+            <field name="res_model">stock.planning.detail</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_planning_id': active_id, 'search_default_productgroup': 1}</field>
+        </record>
+
+    </data>
+</openerp>

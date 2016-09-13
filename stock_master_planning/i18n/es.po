@@ -1,0 +1,308 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#       * stock_master_planning
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-13 19:30+0000\n"
+"PO-Revision-Date: 2016-09-13 19:30+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_master_planning
+#: code:addons/stock_master_planning/models/stock_planning.py:145
+#, python-format
+msgid "Cannot plan with these periods because %s need a period for %s"
+msgstr "No puede planificar con estos periodos porque %s necesita un periodo para el %s"
+
+#. module: stock_master_planning
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_search_view
+#: field:stock.planning.detail,category_id:0
+msgid "Category"
+msgstr "Categoría"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+msgid "Compute Periods"
+msgstr "Calcular periodos"
+
+#. module: stock_master_planning
+#: selection:stock.master.planning,state:0
+msgid "Confirmed"
+msgstr "Confirmada"
+
+#. module: stock_master_planning
+#: field:stock.demand,create_uid:0
+#: field:stock.master.planning,create_uid:0
+#: field:stock.planning.detail,create_uid:0
+#: field:stock.planning.period,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: stock_master_planning
+#: field:stock.demand,create_date:0
+#: field:stock.master.planning,create_date:0
+#: field:stock.planning.detail,create_date:0
+#: field:stock.planning.period,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,demand_qty:0
+msgid "Demand"
+msgstr "Demanda"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+#: field:stock.master.planning,demand_ids:0
+msgid "Demands"
+msgstr "Demandas"
+
+#. module: stock_master_planning
+#: field:stock.master.planning,name:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: stock_master_planning
+#: selection:stock.demand,demand_type:0
+msgid "Direct"
+msgstr "Directa"
+
+#. module: stock_master_planning
+#: field:stock.demand,display_name:0
+#: field:stock.master.planning,display_name:0
+#: field:stock.planning.detail,display_name:0
+#: field:stock.planning.period,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: stock_master_planning
+#: selection:stock.master.planning,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,end_date:0
+#: field:stock.planning.period,end_date:0
+msgid "End date"
+msgstr "Fecha fin"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,expected_qty:0
+msgid "Expected qty."
+msgstr "Cant. estimada"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_search_view
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_search_view
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: stock_master_planning
+#: field:stock.demand,id:0
+#: field:stock.master.planning,id:0
+#: field:stock.planning.detail,id:0
+#: field:stock.planning.period,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,incoming_qty:0
+msgid "Incoming"
+msgstr "Entrante"
+
+#. module: stock_master_planning
+#: selection:stock.demand,demand_type:0
+msgid "Indirect"
+msgstr "Indirecta"
+
+#. module: stock_master_planning
+#: field:stock.demand,__last_update:0
+#: field:stock.master.planning,__last_update:0
+#: field:stock.planning.detail,__last_update:0
+#: field:stock.planning.period,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: stock_master_planning
+#: field:stock.demand,write_uid:0
+#: field:stock.master.planning,write_uid:0
+#: field:stock.planning.detail,write_uid:0
+#: field:stock.planning.period,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: stock_master_planning
+#: field:stock.demand,write_date:0
+#: field:stock.master.planning,write_date:0
+#: field:stock.planning.detail,write_date:0
+#: field:stock.planning.period,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: stock_master_planning
+#: field:stock.master.planning,last_compute_date:0
+msgid "Last compute date"
+msgstr "Últ. fecha de cálculo"
+
+#. module: stock_master_planning
+#: selection:stock.master.planning,period_type:0
+msgid "Month"
+msgstr "Mes"
+
+#. module: stock_master_planning
+#: field:stock.planning.period,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,needed_qty:0
+msgid "Needed qty."
+msgstr "Cant. necesaria"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,net_demand_qty:0
+msgid "Net Demand"
+msgstr "Demanda neta"
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,outgoing_qty:0
+msgid "Outgoing"
+msgstr "Saliente"
+
+#. module: stock_master_planning
+#: field:stock.demand,period_id:0
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_search_view
+#: field:stock.planning.detail,period_id:0
+msgid "Period"
+msgstr "Periodo"
+
+#. module: stock_master_planning
+#: field:stock.master.planning,period_count:0
+msgid "Period count"
+msgstr "Nº periodos"
+
+#. module: stock_master_planning
+#: field:stock.master.planning,period_type:0
+msgid "Period type"
+msgstr "Tipo periodo"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+#: field:stock.master.planning,period_ids:0
+msgid "Periods"
+msgstr "Periodos"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+msgid "Plan"
+msgstr "Planificar"
+
+#. module: stock_master_planning
+#: model:ir.actions.act_window,name:stock_master_planning.act_master_planning_2_details
+#: field:stock.demand,planning_id:0
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+#: field:stock.master.planning,detail_ids:0
+#: field:stock.planning.detail,planning_id:0
+#: field:stock.planning.period,planning_id:0
+msgid "Planning"
+msgstr "Planificación"
+
+#. module: stock_master_planning
+#: code:addons/stock_master_planning/models/stock_planning.py:103
+#, python-format
+msgid "Please, set periods and demands before plan"
+msgstr "Por favor, asigne periodos y demandas antes de planificar"
+
+#. module: stock_master_planning
+#: field:stock.demand,product_id:0
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_search_view
+#: field:stock.planning.detail,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+#: field:stock.master.planning,product_ids:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: stock_master_planning
+#: field:stock.demand,product_qty:0
+msgid "Qty."
+msgstr "Cant."
+
+#. module: stock_master_planning
+#: field:stock.planning.detail,qty_available:0
+msgid "Real stock"
+msgstr "Stock real"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_form_view
+msgid "Master planning"
+msgstr "Maestro planificación"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_search_view
+msgid "Search Stock Master Planning"
+msgstr "Buscar maestro planificación"
+
+#. module: stock_master_planning
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_search_view
+msgid "Search Stock Planning Detail"
+msgstr "Buscar detalle planificación"
+
+#. module: stock_master_planning
+#: help:stock.planning.detail,category_id:0
+msgid "Select category for the current product"
+msgstr "Categoría del producto actual"
+
+#. module: stock_master_planning
+#: field:stock.master.planning,start_date:0
+#: field:stock.planning.period,start_date:0
+msgid "Start date"
+msgstr "Fecha inicio"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_search_view
+#: field:stock.master.planning,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_tree_view
+msgid "Stock Master Plannings"
+msgstr "Maestro planificación stock"
+
+#. module: stock_master_planning
+#: model:ir.actions.act_window,name:stock_master_planning.action_stock_master_planning
+#: model:ir.ui.menu,name:stock_master_planning.stock_master_planning_menu
+msgid "Stock Planning"
+msgstr "Planificación stock"
+
+#. module: stock_master_planning
+#: view:stock.planning.detail:stock_master_planning.stock_planning_detail_tree_view
+msgid "Stock Planning Details"
+msgstr "Detalles planificación stock"
+
+#. module: stock_master_planning
+#: field:stock.demand,demand_type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: stock_master_planning
+#: view:stock.master.planning:stock_master_planning.stock_master_planning_search_view
+#: field:stock.master.planning,warehouse_id:0
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: stock_master_planning
+#: selection:stock.master.planning,period_type:0
+msgid "Week"
+msgstr "Semana"

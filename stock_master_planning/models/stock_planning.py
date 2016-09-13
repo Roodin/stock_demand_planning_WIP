@@ -3,9 +3,10 @@
 # For copyright and license notices, see __openerp__.py file in root directory
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 from dateutil import rrule
 from datetime import datetime, timedelta
+import time
 
 
 class StockMasterPlanning(models.Model):
@@ -27,8 +28,8 @@ class StockMasterPlanning(models.Model):
                              default=lambda self:
                              fields.Date.context_today(self))
     period_type = fields.Selection([('week', "Week"), ('month', 'Month')],
-                                   "Period type", required=True,
-                                   states={'confirmed': [('readonly', True)]})
+                                   "Period type", required=True, readonly=True,
+                                   states={'draft': [('readonly', False)]})
     period_count = fields.Integer("Period count", required=True, default=1)
     product_ids = fields.Many2many(comodel_name='product.product',
                                    relation='stock_planning_product_rel',
@@ -45,9 +46,11 @@ class StockMasterPlanning(models.Model):
     state = fields.Selection([('draft', 'Draft'),
                               ('confirmed', 'Confirmed')], "State",
                              readonly=True, default="draft")
+    detail_ids = fields.One2many("stock.planning.detail", "planning_id",
+                                 "Planning", readonly=True)
 
     @api.multi
-    def action_create_periods(self):
+    def action_compute_periods(self):
         plan_period_obj = self.env["stock.planning.period"]
         for plan in self:
             plan.state = "confirmed"
@@ -91,3 +94,68 @@ class StockMasterPlanning(models.Model):
                                             end_date.strftime("%Y-%m-%d")})
         return True
 
+    @api.multi
+    def action_plan(self):
+        detail_obj = self.env["stock.planning.detail"]
+        demand_obj = self.env["stock.demand"]
+        period_obj = self.env["stock.planning.period"]
+        for plan in self:
+            plan.last_compute_date = time.strftime("%Y-%m-%d %H:%M:%S")
+            if not plan.demand_ids or not plan.period_ids:
+                raise exceptions.Warning(_("Please, set periods and "
+                                           "demands before plan"))
+
+            indirect_products = [x.id for x in plan.product_ids]
+            plan.detail_ids.unlink()
+            for demand in plan.demand_ids:
+                if demand.demand_type == "indirect":
+                    demand.unlink()
+            for product in plan.product_ids:
+                for period in plan.period_ids:
+                    detail_obj.create({"planning_id": plan.id,
+                                       "product_id": product.id,
+                                       "period_id": period.id})
+
+            plan.refresh()
+            for detail in plan.detail_ids:
+                if detail.needed_qty > 0 and detail.product_id in \
+                        plan.product_ids and detail.product_id.bom_ids:
+                    for bom_line in detail.product_id.bom_ids[0].bom_line_ids:
+                        if bom_line.product_id.id not in indirect_products:
+                            indirect_products.append(bom_line.product_id.id)
+                            for period in plan.period_ids:
+                                detail_obj.create({"planning_id": plan.id,
+                                                   "product_id":
+                                                   bom_line.product_id.id,
+                                                   "period_id": period.id})
+                        if bom_line.product_id.seller_delay:
+                            ex_date = datetime.\
+                                strptime(detail.period_id.end_date,
+                                         "%Y-%m-%d") - \
+                                timedelta(bom_line.product_id.seller_delay)
+                            if ex_date >= datetime.\
+                                    strptime(detail.period_id.start_date,
+                                             ("%Y-%m-%d")):
+                                demand_period = detail.period_id.id
+                            else:
+                                period_ids = period_obj.\
+                                    search([('start_date', '<=', ex_date),
+                                            ('end_date', '>=', ex_date),
+                                            ('planning_id', '=', plan.id)])
+                                if not period_ids:
+                                    raise exceptions.\
+                                        Warning(_("Cannot plan with these "
+                                                  "periods because %s need a "
+                                                  "period for %s")
+                                                % (bom_line.product_id.name,
+                                                   ex_date))
+                                else:
+                                    demand_period = period_ids[0].id
+                        demand_obj.create({'product_id':
+                                           bom_line.product_id.id,
+                                           'planning_id': plan.id,
+                                           'period_id': demand_period,
+                                           'demand_type': 'indirect',
+                                           'product_qty': detail.needed_qty *
+                                           bom_line.product_qty})
+        return True

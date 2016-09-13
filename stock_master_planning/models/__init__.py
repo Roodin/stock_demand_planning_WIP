@@ -6,3 +6,4 @@
 from . import stock_planning
 from . import stock_planning_period
 from . import stock_demand
+from . import stock_planning_detail

@@ -37,16 +37,22 @@
             <field name="name">stock.master.planning.form.view</field>
             <field name="model">stock.master.planning</field>
             <field name="arch" type="xml">
-                <form string="Sales Order">
+                <form string="Master planning">
                     <header>
-                        <button name="action_create_periods" string="Create periods" type="object"/>
+                        <button name="action_compute_periods" string="Compute Periods" type="object"/>
+                        <button name="action_plan" string="Plan" type="object" states="confirmed"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                     </header>
                     <sheet>
+                        <div class="oe_title oe_left">
                         <h1>
                             <label for="name"/>
                             <field name="name" class="oe_inline" colspan="4"/>
                         </h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons">
+                            <button class="oe_inline oe_stat_button" type="action" name="%(act_master_planning_2_details)d" icon="fa-strikethrough" states="confirmed" string="Planning"/>
+                        </div>
                         <group col="4" colspan="4">
                             <group col="2" colspan="2">
                                 <field name="start_date"/>
@@ -84,6 +90,7 @@
                                         <field name="product_id"/>
                                         <field name="period_id"/>
                                         <field name="product_qty"/>
+                                        <field name="demand_type"/>
                                     </tree>
                                 </field>
                             </page>
