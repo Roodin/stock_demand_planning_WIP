@@ -11,12 +11,13 @@ class StockDemand(models.Model):
 
     _name = "stock.demand"
 
-    product_id = fields.Many2one("product.product", "Product", required=True)
+    product_id = fields.Many2one("product.product", "Product", required=True,
+                                 domain=[('type', '!=', 'service')])
     planning_id = fields.Many2one("stock.master.planning", "Planning",
                                   readonly=True, required=True,
                                   ondelete="cascade")
     period_id = fields.Many2one("stock.planning.period", "Period",
-                                required=True)
+                                required=True, ondelete="cascade")
     product_qty = fields.Float("Qty.", digits_compute=
                                dp.get_precision('Product Unit of Measure'))
     demand_type = fields.Selection([('direct', 'Direct'),

@@ -12,6 +12,7 @@ import time
 class StockPlanningDetail(models.Model):
 
     _name = "stock.planning.detail"
+    _order = "end_date asc"
 
     @api.one
     def _get_product_info_location(self):
@@ -95,9 +96,9 @@ class StockPlanningDetail(models.Model):
                                   ondelete="cascade")
     product_id = fields.Many2one("product.product", "Product", required=True)
     period_id = fields.Many2one("stock.planning.period", "Period",
-                                required=True)
+                                required=True, ondelete="cascade")
     end_date = fields.Date("End date", related="period_id.end_date",
-                           readonly=True)
+                           readonly=True, store=True)
     category_id = fields.Many2one('product.category', 'Category',
                                   related='product_id.categ_id', store=True,
                                   readonly=True)

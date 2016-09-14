@@ -9,6 +9,7 @@ from openerp import models, fields, api
 class StockPlanningPeriod(models.Model):
 
     _name = "stock.planning.period"
+    _order = "end_date asc"
 
     name = fields.Char("Name", required=True)
     planning_id = fields.Many2one("stock.master.planning", "Planning",

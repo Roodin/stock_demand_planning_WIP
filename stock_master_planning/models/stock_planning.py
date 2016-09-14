@@ -110,6 +110,7 @@ class StockMasterPlanning(models.Model):
             for demand in plan.demand_ids:
                 if demand.demand_type == "indirect":
                     demand.unlink()
+            plan.refresh()
             for product in plan.product_ids:
                 for period in plan.period_ids:
                     detail_obj.create({"planning_id": plan.id,

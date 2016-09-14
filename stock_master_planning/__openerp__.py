@@ -29,6 +29,7 @@
                 'stock'],
     'data': ['views/stock_planning_detail_view.xml',
              'views/stock_master_planning_view.xml',
-             'security/ir.model.access.csv'],
+             'security/ir.model.access.csv',
+             'security/stock_master_planning_security.xml'],
     'installable': True,
 }
