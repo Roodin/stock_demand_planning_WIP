@@ -13,6 +13,7 @@
                         <filter string="Product" context="{'group_by': 'product_id'}" name="productgroup"/>
                         <filter string="Category" context="{'group_by': 'category_id'}"/>
                         <filter string="Period" context="{'group_by': 'period_id'}"/>
+                        <filter string="Location" context="{'group_by': 'location_id'}"/>
                     </group>
                 </search>
             </field>
@@ -25,6 +26,7 @@
                 <tree string="Stock Planning Details" create="0" delete="0">
                     <field name="product_id"/>
                     <field name="period_id"/>
+                    <field name="location_id"/>
                     <field name="qty_available"/>
                     <field name="incoming_qty"/>
                     <field name="outgoing_qty"/>

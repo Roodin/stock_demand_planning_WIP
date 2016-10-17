@@ -19,6 +19,7 @@ class StockPlanningDetail(models.Model):
         demand_obj = self.env["stock.demand"]
         prod = self.env['product.product'].with_context(
             {'warehouse': self.planning_id.warehouse_id.id,
+             'location': self.location_id.id,
              'from_date': self.period_id.start_date,
              'to_date': self.period_id.end_date}).\
             browse(self.product_id.id)
@@ -27,9 +28,10 @@ class StockPlanningDetail(models.Model):
         self.incoming_qty = prod.incoming_qty
         # outgoing qty in planning period
         self.outgoing_qty = prod.outgoing_qty
-        demand_ids = demand_obj.search([('product_id', '=',
-                                         self.product_id.id),
-                                        ('period_id', '=', self.period_id.id)])
+        demand_ids = demand_obj.search(
+            [('product_id', '=', self.product_id.id),
+             ('period_id', '=', self.period_id.id),
+             ('location_id', '=', self.location_id.id)])
         demand_qty = 0
         for demand in demand_ids:
             demand_qty += demand.product_qty
@@ -38,6 +40,7 @@ class StockPlanningDetail(models.Model):
 
         prod2 = self.env['product.product'].with_context(
             {'warehouse': self.planning_id.warehouse_id.id,
+             'location': self.location_id.id,
              'to_date': self.period_id.end_date}).\
             browse(self.product_id.id)
 
@@ -53,13 +56,12 @@ class StockPlanningDetail(models.Model):
         else:
             expected_qty = prod2.virtual_available
 
-        detail_ids = self.search([('end_date', '>=',
-                                   time.strftime("%Y-%m-%d")),
-                                  ('end_date', '<=',
-                                   self.period_id.start_date),
-                                  ('planning_id', '=',
-                                   self.planning_id.id),
-                                  ('product_id', '=', self.product_id.id)])
+        detail_ids = self.search(
+            [('end_date', '>=', time.strftime("%Y-%m-%d")),
+             ('end_date', '<=', self.period_id.start_date),
+             ('planning_id', '=', self.planning_id.id),
+             ('location_id', '=', self.location_id.id),
+             ('product_id', '=', self.product_id.id)])
         for detail in detail_ids:
             expected_qty -= detail.net_demand_qty
             expected_qty += detail.needed_qty
@@ -68,7 +70,8 @@ class StockPlanningDetail(models.Model):
         self.needed_qty = 0
         orderpoint_ids = self.env["stock.warehouse.orderpoint"].\
             search([('product_id', '=', self.product_id.id),
-                    ('warehouse_id', '=', self.planning_id.warehouse_id.id)])
+                    ('warehouse_id', '=', self.planning_id.warehouse_id.id),
+                    ('location_id', '=', self.location_id.id)])
         if orderpoint_ids:
             op = orderpoint_ids[0]
             if float_compare(self.expected_qty, op.product_min_qty,
@@ -130,3 +133,5 @@ class StockPlanningDetail(models.Model):
                               compute='_get_product_info_location',
                               digits_compute=
                               dp.get_precision('Product Unit of Measure'))
+    location_id = fields.Many2one('stock.location', 'Location', required=True)
+    demand_id = fields.Many2one('stock.demand', 'Demand')

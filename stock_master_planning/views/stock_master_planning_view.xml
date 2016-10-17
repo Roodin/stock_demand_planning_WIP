@@ -91,6 +91,7 @@
                                         <field name="period_id" domain="[('planning_id', '=', parent.id)]"/>
                                         <field name="product_qty"/>
                                         <field name="demand_type"/>
+                                        <field name="location_id"/>
                                     </tree>
                                 </field>
                             </page>
