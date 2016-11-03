@@ -129,7 +129,7 @@ class StockPlanningDetail(models.Model):
                                 compute='_get_product_info_location',
                                 digits_compute=
                                 dp.get_precision('Product Unit of Measure'))
-    needed_qty = fields.Float("Needed qty.", readonly=True, multi=True,
+    needed_qty = fields.Float("Needed qty.", readonly=False, multi=True,
                               compute='_get_product_info_location',
                               digits_compute=
                               dp.get_precision('Product Unit of Measure'))

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view"
+                id="view_wizard_master_planning_form">
+            <field name="name">stock.master.planning.form</field>
+            <field name="model">wizard.stock.master.planning</field>
+            <field name="arch" type="xml">
+                <form string="Calculate stock supply chain">
+                    <footer>
+                    <button name="action_plan"
+                            type="object"
+                            string="Calculate"
+                            class="oe_highlight"/>
+                    <button class="oe_link"
+                            special="cancel"
+                            string="Cancel"/>
+                    </footer>
+                </form>
+          </field>
+        </record>
+
+        <act_window name="Calculate stock supply chain"
+            res_model="wizard.stock.master.planning"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_wizard_master_planning"/>
+
+        <menuitem
+            id="menu_wizard_master_planning"
+            parent="stock_demand_estimate.menu_stock_demand_planning"
+            action="action_wizard_master_planning"/>
+
+    </data>
+</openerp>

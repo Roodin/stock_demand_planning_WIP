@@ -15,21 +15,22 @@
 #
 ##############################################################################
 {
-    'name': 'Stock Master Planning',
-    "version": "8.0.1.0.0",
+    'name': 'Stock Demand Supply Chain',
+    "version": "8.0.2.0.0",
     "author": "Comunitea",
     'website': "http://www.comunitea.com",
     'category': 'Warehouse Management',
     "license": 'AGPL-3',
     "contributors": [
         "Omar Castiñeira Saavedra <omar@comunitea.com>",
+        "Jesús Ventosinos <jesus@comunitea.com>",
+        "Santi Argüeso <santi@comunitea.com>",
+        
     ],
-    'depends': ['sale',
-                'purchase',
-                'stock'],
-    'data': ['views/stock_planning_detail_view.xml',
-             'views/stock_master_planning_view.xml',
-             'security/ir.model.access.csv',
-             'security/stock_master_planning_security.xml'],
+    'depends': ['stock_demand_estimate'],
+    'data': ['wizard/procurement_request.xml',
+             'wizard/stock_planning_wizard_view.xml',
+             'views/stock_demand_estimate_view.xml',
+            ],
     'installable': True,
 }

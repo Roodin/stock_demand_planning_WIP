@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--  Procurement demand -->
+
+       <record id="view_stock_procurement_request_wizard" model="ir.ui.view">
+            <field name="name">Procurement request</field>
+            <field name="model">stock.procurement.request</field>
+            <field name="arch" type="xml">
+                <form string="Scrap Products">
+                    <group>
+                        <field name="product_id"  readonly="1"/>
+                        <label for="product_qty"/>
+                        <div>
+                            <field name="product_qty" class="oe_inline"/>
+                        </div>
+                        <field name="procurement_date" class="oe_inline" />
+                        <field name="period_id" class="oe_inline" readonly="1" />
+                        
+                    </group>
+                    <footer>
+                        <button name="generate_procurement" string="Demand" type="object" class="oe_highlight"  />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_procurement_request" model="ir.actions.act_window">
+            <field name="name">Procurement Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.procurement.request</field>
+            <field name="view_id" ref="view_stock_procurement_request_wizard"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'form_view_ref': False}</field>
+        </record>
+
+    </data>
+</openerp>
