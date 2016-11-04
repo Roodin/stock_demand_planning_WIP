@@ -85,6 +85,7 @@ class StockDemandEstimate(models.Model):
                                               op.product_uom.rounding)
                     if qty_rounded > 0:
                         demand.needed_qty = qty_rounded
+
             elif demand.expected_qty < 0:
                 demand.needed_qty = abs(demand.expected_qty)
 
@@ -141,7 +142,9 @@ class StockDemandEstimate(models.Model):
         bom_obj = self.env['mrp.bom']
         product_obj = self.env['product.product']
         bom_point = self.product_id.bom_ids[0]
-
+        manufacture_obj = self.env['mrp.production']
+        defaults = manufacture_obj.default_get(['location_src_id'])
+        location_mp_id = defaults['location_src_id']
         if bom_point:
             demand += self.generate_manufacture_demand(needed_qty, rule_id)
         else:
@@ -161,33 +164,33 @@ class StockDemandEstimate(models.Model):
         for bom_line in res1:
             demand_period = self.period_id.id
             product = product_obj.browse(bom_line['product_id'])[0]
-            if product.seller_delay:
-                ex_date = datetime.strptime(self.period_id.date_to,
-                                            "%Y-%m-%d") - \
-                    timedelta(product.seller_delay)
-                if ex_date >= datetime.strptime(
-                        self.period_id.date_from, ("%Y-%m-%d")):
-                    demand_period = self.period_id.id
-                else:
-                    period_ids = self.env['stock.demand.estimate.period'].\
-                        search([('date_from', '<=', ex_date),
-                                ('date_to', '>=', ex_date),
-                                ])
-                    if not period_ids:
-                        raise exceptions.\
-                            Warning(_("Cannot plan with these "
-                                      "periods because %s need a "
-                                      "period for %s")
-                                    % (bom_line.product_id.name,
-                                       ex_date))
-                    else:
-                        demand_period = period_ids[0].id
+            # if product.seller_delay:
+            #     ex_date = datetime.strptime(self.period_id.date_to,
+            #                                 "%Y-%m-%d") - \
+            #         timedelta(product.seller_delay)
+            #     if ex_date >= datetime.strptime(
+            #             self.period_id.date_from, ("%Y-%m-%d")):
+            #         demand_period = self.period_id.id
+            #     else:
+            #         period_ids = self.env['stock.demand.estimate.period'].\
+            #             search([('date_from', '<=', ex_date),
+            #                     ('date_to', '>=', ex_date),
+            #                     ])
+            #         if not period_ids:
+            #             raise exceptions.\
+            #                 Warning(_("Cannot plan with these "
+            #                           "periods because %s need a "
+            #                           "period for %s")
+            #                         % (product.name,
+            #                            ex_date))
+            #         else:
+            #             demand_period = period_ids[0].id
 
             exist_demand = self.env['stock.demand.estimate'].search(
-                [('location_id', '=', self.location_id.id),
+                [('location_id', '=', location_mp_id),
                  ('period_id', '=', demand_period),
                  ('product_id', '=', bom_line['product_id']),
-                 (('demand_type', '=', self.demand_type))
+                 ('demand_type', '=', self.demand_type)
                  ])
             if exist_demand:
                 exist_demand.indirect_demand_qty += bom_line['product_qty']
@@ -195,7 +198,7 @@ class StockDemandEstimate(models.Model):
             else:
                 demand += self.create(
                     {'product_id': bom_line['product_id'],
-                     'location_id': self.location_id.id,
+                     'location_id': location_mp_id,
                      'period_id': demand_period,
                      #'demand_type': 'indirect',
                      'indirect_demand_qty': bom_line['product_qty']})

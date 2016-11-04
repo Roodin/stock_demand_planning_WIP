@@ -14,7 +14,7 @@ class WizStockProcurementRequest(models.TransientModel):
 
     product_id = fields.Many2one('product.product',
             string='Product',
-            required=True, select=True)
+            required=True)
     product_qty = fields.Float('Quantity', 
             digits_compute=dp.get_precision('Product Unit of Measure'),
             required=True)
@@ -62,14 +62,22 @@ class WizStockProcurementRequest(models.TransientModel):
         for warehouse in warehouses:
             loc_warehouse_ids = self.env['stock.location'].search(
                 [('id', 'child_of',warehouse.lot_stock_id.id)])
-            if self.stock_demand_id.location_id.id in [x.id for x in loc_warehouse_ids]:
+            if self.stock_demand_id.location_id.id in\
+                    [x.id for x in loc_warehouse_ids]:
                 proc_wh_id = warehouse.id
                 break
         print proc_wh_id
+        stock_demand_obj = self.env['stock.demand.estimate']
+        demand = self.stock_demand_id
+        if demand.demand_type in ['buy', 'manufacture'] and \
+                demand.generated_by_id:
+            period = demand.generated_by_id.period_id
+        else:
+            period = self.period_id
         return {
             'name': 'MPS/'+ self.period_id.name,
             'origin': 'MPS/'+ self.period_id.name,
-            'date_planned': self.period_id.date_to,
+            'date_planned': period.date_to,
             'product_id': self.product_id.id,
             'product_qty': self.product_qty,
             'product_uom': self.product_id.uom_id.id,
