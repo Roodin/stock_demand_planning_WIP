@@ -86,7 +86,6 @@ class WizStockProcurementRequest(models.TransientModel):
             'company_id': self.stock_demand_id.company_id.id,
             'warehouse_id': proc_wh_id,
             'location_id': self.stock_demand_id.location_id.id,
-            #'partner_dest_id': self.planning_detail_id.location_id.partner_id.id
         }
 
     @api.multi
