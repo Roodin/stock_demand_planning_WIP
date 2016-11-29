@@ -5,3 +5,4 @@
 
 from . import procurement_request
 from . import stock_planning_wizard
+from . import stock_demand_estimate_wizard

@@ -16,6 +16,7 @@
                             <field name="product_qty" class="oe_inline"/>
                         </div>
                         <field name="procurement_date" class="oe_inline" />
+                        <field name="action_date" class="oe_inline" />
                         <field name="period_id" class="oe_inline" readonly="1" />
                         
                     </group>

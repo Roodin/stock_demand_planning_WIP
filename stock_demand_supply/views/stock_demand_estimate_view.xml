@@ -3,17 +3,41 @@
     <data>
 
         <record model="ir.ui.view" id="view_stock_demand_estimate_plan_search">
-            <field name="name">sstock.demand.estimate.search.view</field>
+            <field name="name">stock.demand.estimate.search.view</field>
             <field name="model">stock.demand.estimate</field>
             <field name="inherit_id" ref="stock_demand_estimate.view_stock_demand_estimate_search" />
             <field name="arch" type="xml">
                 <field name="location_id" position="after" >
                     <field name="category_id" />
+                    <group expand="0" string="Filter by...">
+                        <filter name="real_locations" string="Real Locations"
+                            domain="[('location_id.usage', '=', 'internal')]"
+                            help="See only internal locations"/>
+                         <!--filter name="needed_qty" string="Needed"
+                            domain="[('needed_qty', '>', 0)]"
+                            help="Needed quantity > 0"/-->
+                        <separator/>
+                        <filter name="action_needed" string="Action Needed"
+                            domain="[('action_needed_compute', '=', True)]"
+                            help="Action is needed"/>
+                        <separator/>
+                        <filter name="buy" string="Buy Needed"
+                            domain="[('demand_type','=', 'buy')]"
+                            help="Action proposal is buy"/>
+                        <filter name="produce" string="Production Needed"
+                            domain="[('demand_type','=', 'manufacture')]"
+                            help="Action proposal is buy"/>
+                        <filter name="future" string="Future Demands"
+                            domain="[('end_date','>=', current_date)]"
+                            help="Future demands"/>
+                    </group>
                     <group string="Group By">
                         <filter string="Product" context="{'group_by': 'product_id'}" name="productgroup"/>
                         <filter string="Category" context="{'group_by': 'category_id'}"/>
                         <filter string="Period" context="{'group_by': 'period_id'}"/>
                         <filter string="Location" context="{'group_by': 'location_id'}"/>
+                        <filter string="Demand Type"
+                                context="{'group_by': 'demand_type'}"/>
                     </group>
                 </field>
             </field>
@@ -24,7 +48,53 @@
             <field name="model">stock.demand.estimate</field>
             <field name="inherit_id" ref="stock_demand_estimate.view_stock_demand_estimate_tree" />
             <field name="arch" type="xml">
-                <field name="product_uom" position="after">
+                <tree position="attributes">
+                    <attribute name="editable"></attribute>
+                    <attribute name="colors">
+                        green: action_needed_compute == True;
+                        grey: needed_qty == 0 and demand_qty > 0
+                    </attribute>
+                    <!--attribute name="colors">'blue:needed_qty>0
+                    </attribute-->
+                     <!--attribute name="attrs">{'editable':
+                     False}</attribute-->
+                     <!--attribute
+                     name="attrs">{'colors':'blue:needed_qty>0'}</attribute-->
+                </tree>
+                <field name="daily_qty" position="after">
+                    <field name="demand_type"/>
+                    <!--field name="qty_available"/>
+                    <field name="incoming_qty"/>
+                    <field name="outgoing_qty"/-->
+                    <field name="initial_stock_qty"/>
+                    <field name="indirect_demand_qty"/>
+                    <button name="%(action_stock_planning_tree2)d"
+                            type="action" icon="gtk-go-back"  /><field name="demand_qty"/>
+                    <field name="outgoing_qty"/>
+                    <field name="incoming_qty"/>
+                    <field name="expected_qty"/>
+
+                    <field name="needed_qty"/>
+                    <button name="%(stock_demand_supply.action_procurement_request)d"
+                    type="action" icon="gtk-execute"
+                            attrs="{'invisible': [('action_needed_compute', '=',
+                    False)]}"/>
+                    <field name="final_stock_qty"/>
+                    <field name="action_needed_compute" invisible="1"/>
+                    <field name="category_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_stock_planning_tree2" >
+            <field name="name">stock.planning.detail.tree2.view</field>
+            <field name="model">stock.demand.estimate</field>
+            <field name="field_parent">generated_by_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Stock demand">
+                    <field name="product_id"/>
+                    <field name="period_id"/>
+                    <field name="location_id"/>
                     <field name="indirect_demand_qty"/>
                     <field name="qty_available"/>
                     <field name="incoming_qty"/>
@@ -34,12 +104,115 @@
                     <field name="expected_qty"/>
                     <field name="demand_type"/>
                     <field name="needed_qty"/>
-                    <button name="%(stock_demand_supply.action_procurement_request)d" string="Execute"
-                    type="action" icon="gtk-go-forward" />
-                    <field name="category_id" invisible="1"/>
-                </field>
+                    <!--button
+                    name="%(stock_demand_supply.action_procurement_request)d" string="Execute"
+                    type="action" icon="icon=fa-arrow-left"
+                            attrs="{'invisible': [('action_needed_compute', '=',
+                    False)]}"/>
+                    <field name="action_needed_compute" invisible="0"/-->
+                </tree>
             </field>
         </record>
+
+        <record id="action_stock_planning_tree2" model="ir.actions.act_window">
+            <field name="name">Supply Chain</field>
+            <field name="res_model">stock.demand.estimate</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_stock_planning_tree2"/>
+            <field name="context">{}</field>
+            <field name="domain">[('id','=',active_id)]</field>
+        </record>
+
+
+        <record model="ir.actions.act_window"
+                id="stock_demand_estimate.stock_demand_estimate_form_action">
+           <field name="context">{'search_default_future':1}</field>
+            <!--field name="domain">[('product_id','=', active_id)]</field-->
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="stock_planning_detail_form_view" >
+            <field name="name">stock.planning.detail.form.view</field>
+            <field name="model">stock.demand.estimate</field>
+            <field name="arch" type="xml">
+                <form string="Stock demand">
+                    <header></header>
+                    <sheet>
+                        <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
+                            <button string="Supply Chain" name=
+                                            "%(action_stock_planning_tree2)d" type="action" icon="fa-arrow-up" class="oe_stat_button" />
+                            <button
+                                    name="%(stock_demand_supply.action_procurement_request)d" string="Execute" class="oe_stat_button"
+                    type="action" icon="icon=fa-arrow-left"
+                            attrs="{'invisible': [('action_needed_compute', '=',
+                    False)]}"/>
+                        </div>
+                        <group>
+                            <h1>
+                                <field name="product_id"/>
+                                <field name="product_uom"/>
+                            </h1>
+
+                        </group>
+                         <group>
+                            <field name="period_id"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="demand_type"/>
+                            <field name="action_needed_compute" invisible="1"/>
+                        </group>
+
+                         <group>
+                             <field name="qty_available"/>
+                            <field name="product_uom_qty"/>
+                            <field name="indirect_demand_qty"/>
+                             <field name="demand_qty"/>
+                              <field name="needed_qty"/>
+                        </group>
+                        <group>
+                            <field name="rule_id"/>
+                            <field name="procurement_id"/>
+                            <field name="generated_by_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window"
+                id="stock_demand_estimate_form_action_product">
+            <field name="name">Stock Demand Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.demand.estimate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+             <field name="context">{'search_default_future':1,'search_default_product_id': active_id, 'default_product_id': active_id}</field>
+
+            <field name="search_view_id"
+                   ref="stock_demand_estimate.view_stock_demand_estimate_search"/>
+        </record>
+
+        <record model="ir.ui.view" id="product_form_view_supply_button">
+            <field name="name">product.product.supply</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                   <button class="oe_stat_button"
+                           string="Supply Chain"
+                           name="%(stock_demand_estimate_form_action_product)d"
+                           type="action"
+                           attrs="{'invisible':[('type', '=', 'service')]}"
+                           groups="stock.group_stock_user" icon="fa-arrows-v"/>
+                </xpath>
+            </field>
+        </record>
+
 
     </data>
 </openerp>

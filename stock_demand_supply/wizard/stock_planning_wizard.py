@@ -7,7 +7,9 @@ from openerp import models, fields, api, exceptions, _
 from dateutil import rrule
 from datetime import datetime, timedelta
 import time
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class WizStockMasterPlanning(models.TransientModel):
 
@@ -15,17 +17,17 @@ class WizStockMasterPlanning(models.TransientModel):
 
     @api.multi
     def action_plan(self):
+        _logger.info('INICIA action_plan')
         demand_obj = self.env["stock.demand.estimate"]
         demand_ids = demand_obj.search([('end_date', '>=',
                                          time.strftime("%Y-%m-%d %H:%M:%S"))])
-        #indirect_demand_ids = demand_ids.filtered(
-        #        lambda d: d.demand_type == 'indirect')
-        #indirect_demand_ids.unlink()
-        #demands = demand_ids - indirect_demand_ids
         demand_ids.write({'indirect_demand_qty': 0})
+        demand_ids.write({'generated_by_ids': [(5, 0, 0)]})
+
         while demand_ids:
             new_demands = self.env['stock.demand.estimate']
             demand = demand_ids[0]
+            _logger.info('Demanda recorrida de action_plan %s', demand.id)
             #new_detail = demand.create_detail()
             demand.refresh()
             if demand.needed_qty > 0 and demand.demand_type == 'stock':
