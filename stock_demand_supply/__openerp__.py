@@ -27,7 +27,7 @@
         "Santi Argüeso <santi@comunitea.com>",
         
     ],
-    'depends': ['stock_demand_estimate'],
+    'depends': ['stock_demand_estimate', 'mrp', 'purchase'],
     'data': ['wizard/procurement_request.xml',
              'wizard/stock_planning_wizard_view.xml',
              'views/stock_demand_estimate_view.xml',

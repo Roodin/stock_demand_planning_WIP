@@ -75,9 +75,10 @@ class WizStockProcurementRequest(models.TransientModel):
         self.stock_demand_id.write({'procurement_id': proc.id, 'executed':
                                     True})
         demand_obj = self.env["stock.demand.estimate"]
-        demand_ids = demand_obj.search([('end_date', '>=',
-                                         self.procurement_date)])
-        demand_ids.refresh()
+        demand_ids = demand_obj.search(
+            [('end_date', '>=', self.procurement_date),
+            ('product_id', '=', self.product_id.id )])
+        demand_ids.calculate_needs()
 
         return {'type': 'ir.actions.act_window_close'}
 

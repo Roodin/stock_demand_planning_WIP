@@ -4,3 +4,4 @@
 ##############################################################################
 
 from . import stock_demand
+from . import mrp_production

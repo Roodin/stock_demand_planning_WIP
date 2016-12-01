@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#       * stock_demand_supply
+#	* stock_demand_supply
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-13 19:30+0000\n"
-"PO-Revision-Date: 2016-09-13 19:30+0000\n"
+"POT-Creation-Date: 2016-11-29 06:58+0000\n"
+"PO-Revision-Date: 2016-11-29 06:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,293 +16,361 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: stock_demand_supply
-#: code:addons/stock_demand_supply/models/stock_planning.py:145
-#, python-format
-msgid "Cannot plan with these periods because %s need a period for %s"
-msgstr "No puede planificar con estos periodos porque %s necesita un periodo para el %s"
+#: field:stock.demand.estimate,action_needed:0
+#: field:stock.demand.estimate,action_needed_compute:0
+msgid "Action Neded"
+msgstr "Necesita acción"
 
 #. module: stock_demand_supply
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_search_view
-#: field:stock.planning.detail,category_id:0
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Action Needed"
+msgstr "Necesita acción"
+
+#. module: stock_demand_supply
+#: field:stock.procurement.request,action_date:0
+msgid "Action date (Buy or Produce)"
+msgstr "Fecha de acción (Comprar o producir)"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,executed:0
+msgid "Action executed"
+msgstr "Acción ejecutada"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Action is needed"
+msgstr "Se necesita acción"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Action proposal is buy"
+msgstr "La acción propuesta es comprar"
+
+#. module: stock_demand_supply
+#: selection:stock.demand.estimate,demand_type:0
+msgid "Buy"
+msgstr "Comprar"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Buy Needed"
+msgstr "Necesita comprar"
+
+#. module: stock_demand_supply
+#: view:wizard.stock.master.planning:stock_demand_supply.view_wizard_master_planning_form
+msgid "Calculate"
+msgstr "Calcular"
+
+#. module: stock_demand_supply
+#: model:ir.actions.act_window,name:stock_demand_supply.action_wizard_master_planning
+#: model:ir.ui.menu,name:stock_demand_supply.menu_wizard_master_planning
+#: view:wizard.stock.master.planning:stock_demand_supply.view_wizard_master_planning_form
+msgid "Calculate stock supply chain"
+msgstr "Calcular cadena de suministro"
+
+#. module: stock_demand_supply
+#: view:stock.procurement.request:stock_demand_supply.view_stock_procurement_request_wizard
+#: view:wizard.stock.master.planning:stock_demand_supply.view_wizard_master_planning_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: stock_demand_supply
+#: code:addons/stock_demand_supply/models/stock_demand.py:357
+#, python-format
+msgid "Cannot plan with these periods because %s need a period for %s"
+msgstr "No se puede calcular con estos períodos porque %s necesita un
+período para
+ %s"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+#: field:stock.demand.estimate,category_id:0
 msgid "Category"
 msgstr "Categoría"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-msgid "Compute Periods"
-msgstr "Calcular periodos"
+#: code:addons/stock_demand_supply/models/stock_demand.py:212
+#: code:addons/stock_demand_supply/models/stock_demand.py:225
+#, python-format
+msgid "Configuration Error: Product '%s' needs a bill of material"
+msgstr "Fallo de configuración : El producto '%s' necesita una lista de
+materiales"
 
 #. module: stock_demand_supply
-#: selection:stock.master.planning,state:0
-msgid "Confirmed"
-msgstr "Confirmada"
-
-#. module: stock_demand_supply
-#: field:stock.demand,create_uid:0
-#: field:stock.master.planning,create_uid:0
-#: field:stock.planning.detail,create_uid:0
-#: field:stock.planning.period,create_uid:0
+#: field:wizard.stock.master.planning,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creado por"
 
 #. module: stock_demand_supply
-#: field:stock.demand,create_date:0
-#: field:stock.master.planning,create_date:0
-#: field:stock.planning.detail,create_date:0
-#: field:stock.planning.period,create_date:0
+#: field:wizard.stock.master.planning,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado en"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,demand_qty:0
+#: field:stock.demand.estimate,demand_qty:0
+#: view:stock.procurement.request:stock_demand_supply.view_stock_procurement_request_wizard
 msgid "Demand"
 msgstr "Demanda"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-#: field:stock.master.planning,demand_ids:0
-msgid "Demands"
-msgstr "Demandas"
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Demand Type"
+msgstr "Tipo de demanda"
 
 #. module: stock_demand_supply
-#: field:stock.master.planning,name:0
-msgid "Description"
-msgstr "Descripción"
-
-#. module: stock_demand_supply
-#: selection:stock.demand,demand_type:0
-msgid "Direct"
-msgstr "Directa"
-
-#. module: stock_demand_supply
-#: field:stock.demand,display_name:0
-#: field:stock.master.planning,display_name:0
-#: field:stock.planning.detail,display_name:0
-#: field:stock.planning.period,display_name:0
+#: field:stock.procurement.request,display_name:0
+#: field:wizard.stock.master.planning,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nombe a mostrar"
 
 #. module: stock_demand_supply
-#: selection:stock.master.planning,state:0
-msgid "Draft"
-msgstr "Borrador"
-
-#. module: stock_demand_supply
-#: field:stock.planning.detail,end_date:0
-#: field:stock.planning.period,end_date:0
+#: field:stock.demand.estimate,end_date:0
 msgid "End date"
 msgstr "Fecha fin"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,expected_qty:0
-msgid "Expected qty."
-msgstr "Cant. estimada"
+#: code:addons/stock_demand_supply/models/stock_demand.py:331
+#, python-format
+msgid "Error rules"
+msgstr "Error en las reglas"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_search_view
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_search_view
+#: code:addons/stock_demand_supply/models/stock_demand.py:292
+#, python-format
+msgid "Error rules for location %s. %s move rule found"
+msgstr "Error de reglas en la ubicación %s. %s reglas de movimiento
+encontradas"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.stock_planning_detail_form_view
+msgid "Execute"
+msgstr "Ejecutar"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,expected_qty:0
+msgid "Expected qty."
+msgstr "Ctdad. esperada"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Filter by..."
+msgstr "Filtrar por..."
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,final_stock_qty:0
+msgid "Final stock"
+msgstr "Stock final"
+
+#. module: stock_demand_supply
+#: help:stock.demand.estimate,final_stock_qty:0
+msgid "Final stock in period"
+msgstr "Stock final en el período"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Future Demands"
+msgstr "Demandas futuras"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Future demands"
+msgstr "Demandas futuras"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,generated_by_id:0
+#: field:stock.demand.estimate,generated_by_ids:0
+msgid "Generated by"
+msgstr "Generado por"
+
+#. module: stock_demand_supply
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
 msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: stock_demand_supply
-#: field:stock.demand,id:0
-#: field:stock.master.planning,id:0
-#: field:stock.planning.detail,id:0
-#: field:stock.planning.period,id:0
+#: field:wizard.stock.master.planning,id:0
 msgid "ID"
 msgstr "ID"
+Entrante"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,incoming_qty:0
-msgid "Incoming"
-msgstr "Entrante"
+#: field:stock.demand.estimate,indirect_demand_qty:0
+msgid "Indirect Demand"
+msgstr "Demanda indirecta"
 
 #. module: stock_demand_supply
-#: selection:stock.demand,demand_type:0
-msgid "Indirect"
-msgstr "Indirecta"
+#: field:stock.demand.estimate,initial_stock_qty:0
+msgid "Initial Stock"
+msgstr "Stock inicial"
 
 #. module: stock_demand_supply
-#: field:stock.demand,__last_update:0
-#: field:stock.master.planning,__last_update:0
-#: field:stock.planning.detail,__last_update:0
-#: field:stock.planning.period,__last_update:0
+#: help:stock.demand.estimate,initial_stock_qty:0
+msgid "Initial stock in period"
+msgstr "Stock inicial en el período"
+
+#. module: stock_demand_supply
+#: field:stock.procurement.request,__last_update:0
+#: field:wizard.stock.master.planning,__last_update:0
 msgid "Last Modified on"
-msgstr "Last Modified on"
+msgstr "Última modificación el "
 
 #. module: stock_demand_supply
-#: field:stock.demand,write_uid:0
-#: field:stock.master.planning,write_uid:0
-#: field:stock.planning.detail,write_uid:0
-#: field:stock.planning.period,write_uid:0
+#: field:wizard.stock.master.planning,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Última actualización por"
 
 #. module: stock_demand_supply
-#: field:stock.demand,write_date:0
-#: field:stock.master.planning,write_date:0
-#: field:stock.planning.detail,write_date:0
-#: field:stock.planning.period,write_date:0
+#: field:wizard.stock.master.planning,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Última actualiación el"
 
 #. module: stock_demand_supply
-#: field:stock.master.planning,last_compute_date:0
-msgid "Last compute date"
-msgstr "Últ. fecha de cálculo"
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Location"
+msgstr "Ubicación"
 
 #. module: stock_demand_supply
-#: selection:stock.master.planning,period_type:0
-msgid "Month"
-msgstr "Mes"
+#: selection:stock.demand.estimate,demand_type:0
+msgid "Manufacture"
+msgstr "Producir"
 
 #. module: stock_demand_supply
-#: field:stock.planning.period,name:0
-msgid "Name"
-msgstr "Nombre"
-
-#. module: stock_demand_supply
-#: field:stock.planning.detail,needed_qty:0
+#: field:stock.demand.estimate,needed_qty:0
 msgid "Needed qty."
-msgstr "Cant. necesaria"
+msgstr "Ctdad. necesaria"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,net_demand_qty:0
+#: field:stock.demand.estimate,net_demand_qty:0
 msgid "Net Demand"
 msgstr "Demanda neta"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,outgoing_qty:0
+#: field:stock.demand.estimate,rule_id:0
+msgid "Origin rule"
+msgstr "Regla de origen"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,outgoing_qty:0
 msgid "Outgoing"
 msgstr "Saliente"
 
 #. module: stock_demand_supply
-#: field:stock.demand,period_id:0
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_search_view
-#: field:stock.planning.detail,period_id:0
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+#: field:stock.procurement.request,period_id:0
+#: field:stock.procurement.request,stock_demand_id:0
 msgid "Period"
-msgstr "Periodo"
+msgstr "Período"
 
 #. module: stock_demand_supply
-#: field:stock.master.planning,period_count:0
-msgid "Period count"
-msgstr "Nº periodos"
+#: field:stock.demand.estimate,procurement_id:0
+msgid "Procurement"
+msgstr "Abastecimiento"
 
 #. module: stock_demand_supply
-#: field:stock.master.planning,period_type:0
-msgid "Period type"
-msgstr "Tipo periodo"
+#: model:ir.actions.act_window,name:stock_demand_supply.action_procurement_request
+msgid "Procurement Request"
+msgstr "Solicitud de abastecimiento"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-#: field:stock.master.planning,period_ids:0
-msgid "Periods"
-msgstr "Periodos"
+#: field:stock.procurement.request,procurement_date:0
+msgid "Procurement date"
+msgstr "Fecha de abastecimiento"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-msgid "Plan"
-msgstr "Planificar"
+#: model:ir.model,name:stock_demand_supply.model_stock_procurement_request
+msgid "Procurement request"
+msgstr "Solicitud de abastecimiento"
 
 #. module: stock_demand_supply
-#: model:ir.actions.act_window,name:stock_demand_supply.act_master_planning_2_details
-#: field:stock.demand,planning_id:0
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-#: field:stock.master.planning,detail_ids:0
-#: field:stock.planning.detail,planning_id:0
-#: field:stock.planning.period,planning_id:0
-msgid "Planning"
-msgstr "Planificación"
-
-#. module: stock_demand_supply
-#: code:addons/stock_demand_supply/models/stock_planning.py:103
-#, python-format
-msgid "Please, set periods and demands before plan"
-msgstr "Por favor, asigne periodos y demandas antes de planificar"
-
-#. module: stock_demand_supply
-#: field:stock.demand,product_id:0
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_search_view
-#: field:stock.planning.detail,product_id:0
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+#: field:stock.procurement.request,product_id:0
 msgid "Product"
 msgstr "Producto"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-#: field:stock.master.planning,product_ids:0
-msgid "Products"
-msgstr "Productos"
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Production Needed"
+msgstr "Producción necesaria"
 
 #. module: stock_demand_supply
-#: field:stock.demand,product_qty:0
-msgid "Qty."
-msgstr "Cant."
+#: field:stock.procurement.request,product_qty:0
+msgid "Quantity"
+msgstr "Cantidad"
 
 #. module: stock_demand_supply
-#: field:stock.planning.detail,qty_available:0
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "Real Locations"
+msgstr "Ubicaciones físicas"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,qty_available:0
 msgid "Real stock"
-msgstr "Stock real"
+msgstr "Stock"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_form_view
-msgid "Master planning"
-msgstr "Maestro planificación"
+#: view:stock.procurement.request:stock_demand_supply.view_stock_procurement_request_wizard
+msgid "Scrap Products"
+msgstr "Desechar"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_search_view
-msgid "Search Stock Master Planning"
-msgstr "Buscar maestro planificación"
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_demand_estimate_plan_search
+msgid "See only internal locations"
+msgstr "Ver solo ubicaciones internas"
 
 #. module: stock_demand_supply
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_search_view
-msgid "Search Stock Planning Detail"
-msgstr "Buscar detalle planificación"
-
-#. module: stock_demand_supply
-#: help:stock.planning.detail,category_id:0
+#: help:stock.demand.estimate,category_id:0
 msgid "Select category for the current product"
-msgstr "Categoría del producto actual"
+msgstr "Seleccionar categoría para el producto actual"
 
 #. module: stock_demand_supply
-#: field:stock.master.planning,start_date:0
-#: field:stock.planning.period,start_date:0
-msgid "Start date"
-msgstr "Fecha inicio"
+#: selection:stock.demand.estimate,demand_type:0
+msgid "Stock"
+msgstr "Stock"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_search_view
-#: field:stock.master.planning,state:0
-msgid "State"
-msgstr "Estado"
+#: model:ir.model,name:stock_demand_supply.model_stock_demand_estimate
+msgid "Stock Demand Estimate Line"
+msgstr "Línea de estimación de demanda"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_tree_view
-msgid "Stock Master Plannings"
-msgstr "Maestro planificación stock"
+#: model:ir.model,name:stock_demand_supply.model_stock_demand_estimate_sheet
+msgid "Stock Demand Estimate Sheet"
+msgstr "Stock Demand Estimate Sheet"
 
 #. module: stock_demand_supply
-#: model:ir.actions.act_window,name:stock_demand_supply.action_stock_demand_supply
-#: model:ir.ui.menu,name:stock_demand_supply.stock_demand_supply_menu
-msgid "Stock Planning"
-msgstr "Planificación stock"
+#: model:ir.actions.act_window,name:stock_demand_supply.stock_demand_estimate_form_action_product
+msgid "Stock Demand Product"
+msgstr "Demanda de producto"
 
 #. module: stock_demand_supply
-#: view:stock.planning.detail:stock_demand_supply.stock_planning_detail_tree_view
-msgid "Stock Planning Details"
-msgstr "Detalles planificación stock"
+#: view:stock.demand.estimate:stock_demand_supply.stock_planning_detail_form_view
+#: view:stock.demand.estimate:stock_demand_supply.view_stock_planning_tree2
+msgid "Stock demand"
+msgstr "Demanda de stock"
 
 #. module: stock_demand_supply
-#: field:stock.demand,demand_type:0
+#: model:ir.actions.act_window,name:stock_demand_supply.action_stock_planning_tree2
+#: view:product.product:stock_demand_supply.product_form_view_supply_button
+#: view:stock.demand.estimate:stock_demand_supply.stock_planning_detail_form_view
+msgid "Supply Chain"
+msgstr "Cadena de suministro"
+
+#. module: stock_demand_supply
+#: field:stock.demand.estimate,demand_type:0
 msgid "Type"
 msgstr "Tipo"
 
 #. module: stock_demand_supply
-#: view:stock.master.planning:stock_demand_supply.stock_demand_supply_search_view
-#: field:stock.master.planning,warehouse_id:0
-msgid "Warehouse"
-msgstr "Almacén"
+#: view:stock.demand.estimate:stock_demand_supply.stock_planning_detail_tree_view
+msgid "green: action_needed_compute == True;\n"
+"                        grey: needed_qty == 0 and demand_qty > 0;\n"
+"                        blue: procurement_id != False"
+msgstr "green: action_needed_compute == True;\n"
+"                        grey: needed_qty == 0 and demand_qty > 0;\n"
+"                        blue: procurement_id != False"
 
 #. module: stock_demand_supply
-#: selection:stock.master.planning,period_type:0
-msgid "Week"
-msgstr "Semana"
+#: view:stock.procurement.request:stock_demand_supply.view_stock_procurement_request_wizard
+msgid "or"
+msgstr "o"
+

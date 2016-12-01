@@ -16,37 +16,25 @@ class StockDemandEstimate(models.Model):
     _inherit = 'stock.demand.estimate'
     _order = "end_date asc"
 
-    # @api.multi
-    # @api.depends('action_needed', 'needed_qty')
-    # def _get_action_needed(self):
-    #     print "Calculo necesidad accion"
-    #
-    #     for demand in self:
-    #         print demand.id
-    #         print demand.product_id.name
-    #         print demand.end_date
-    #         if demand.action_needed and demand.needed_qty > 0:
-    #             demand.action_needed_compute = True
-    #         else:
-    #             demand.action_needed_compute = False
-    #     print "FIN Calculo necesidad accion"
-
     def get_previous_demand(self, demand):
-        return self.search(
+        prev_ids = self.search(
             [('end_date', '>=', time.strftime("%Y-%m-%d")),
              ('end_date', '<=', demand.period_id.date_from),
              ('location_id', '=', demand.location_id.id),
              ('product_id', '=', demand.product_id.id),
              ('demand_type', '=', 'stock'),
-             ('id', '<>', demand.id)]).sorted()[-1] or False
+             ('id', '<>', demand.id)]).sorted()
+        if prev_ids:
+            return prev_ids[-1]
+        else:
+            False
 
     @api.multi
-    @api.depends('product_uom_qty', 'indirect_demand_qty', 'action_needed',
-                 'procurement_id', 'procurement_id.state')
-    def _get_product_info_location(self):
-        # TODO Corregir orden incorrecto ya que no viene
-        # por fecha y se necesita para un cállulo correcto
-        _logger.info('_get_product_info_location')
+    #@api.depends('product_uom_qty', 'indirect_demand_qty', 'action_needed',
+    #             'procurement_id', 'procurement_id.state')
+    def calculate_needs(self):
+
+        _logger.info('calculate_needs')
         demands = self.filtered(
                     lambda x: x.demand_type not in ['buy',
                                                     'manufacture']).sorted()\
@@ -94,7 +82,10 @@ class StockDemandEstimate(models.Model):
                     # se calcual par alos demás sumando el su stock final
                     # previsto = inicial - demanda calculada + stock necesario
                     prev_demand = self.get_previous_demand(demand)
-                    demand.initial_stock_qty = prev_demand.final_stock_qty
+                    if prev_demand:
+                        demand.initial_stock_qty = prev_demand.final_stock_qty
+                    else:
+                        demand.initial_stock_qty = prod_ini.virtual_available
 
 
                 # TODO Revisar si hacerlo así o por el mayor entre indirecta +
@@ -105,7 +96,6 @@ class StockDemandEstimate(models.Model):
 
                 demand.expected_qty = demand.initial_stock_qty - \
                                       demand.demand_qty + demand.incoming_qty
-
 
                 demand.needed_qty = 0
                 orderpoint_ids = self.env["stock.warehouse.orderpoint"]. \
@@ -141,7 +131,8 @@ class StockDemandEstimate(models.Model):
                 demand.expected_qty = 0
                 demand.needed_qty = demand.indirect_demand_qty
 
-            if demand.action_needed and demand.needed_qty > 0:
+            if demand.action_needed and demand.needed_qty > 0 and not \
+                    demand.procurement_id:
                 demand.action_needed_compute = True
             else:
                 demand.action_needed_compute = False
@@ -157,53 +148,34 @@ class StockDemandEstimate(models.Model):
     category_id = fields.Many2one('product.category', 'Category',
                                   related='product_id.categ_id', store=True,
                                   readonly=True)
-    qty_available = fields.Float('Real stock', readonly=True, multi=True,
-                                 compute='_get_product_info_location',
+    qty_available = fields.Float('Real stock', readonly=True,
                                  digits_compute=
-                                 dp.get_precision('Product Unit of Measure'),
-                                 store=True)
-    incoming_qty = fields.Float('Incoming', readonly=True, multi=True,
-                                compute='_get_product_info_location',
+                                 dp.get_precision('Product Unit of Measure'))
+    incoming_qty = fields.Float('Incoming', readonly=True,
                                 digits_compute=
-                                dp.get_precision('Product Unit of Measure'),
-                                store=True)
-    outgoing_qty = fields.Float('Outgoing', readonly=True, multi=True,
-                                compute='_get_product_info_location',
+                                dp.get_precision('Product Unit of Measure'))
+    outgoing_qty = fields.Float('Outgoing', readonly=True,
                                 digits_compute=
-                                dp.get_precision('Product Unit of Measure'),
-                                store=True)
+                                dp.get_precision('Product Unit of Measure'))
     initial_stock_qty = fields.Float("Initial Stock", readonly=True,
-                                     multi=True,
-                              compute='_get_product_info_location',
-                              help='Initial stock in period',
-                              store=True)
+                              help='Initial stock in period')
     final_stock_qty = fields.Float("Final stock", readonly=True,
-                                     multi=True,
-                                     compute='_get_product_info_location',
-                                     help = 'Final stock in period',
-                                     store=True)
-    demand_qty = fields.Float("Demand", readonly=True, multi=True,
-                              compute='_get_product_info_location',
+                                     help = 'Final stock in period')
+    demand_qty = fields.Float("Demand", readonly=True,
                               digits_compute=
-                              dp.get_precision('Product Unit of Measure'),
-                              store=True)
+                              dp.get_precision('Product Unit of Measure'))
     indirect_demand_qty = fields.Float("Indirect Demand", readonly=True,
                                        multi=True)
-    net_demand_qty = fields.Float("Net Demand", readonly=True, multi=True,
-                                  compute='_get_product_info_location',
+    net_demand_qty = fields.Float("Net Demand", readonly=True,
                                   digits_compute=
                                   dp.get_precision('Product Unit of '
-                                                   'Measure'), store=True)
-    expected_qty = fields.Float("Expected qty.", readonly=True, multi=True,
-                                compute='_get_product_info_location',
+                                                   'Measure'))
+    expected_qty = fields.Float("Expected qty.", readonly=True,
                                 digits_compute=
-                                dp.get_precision('Product Unit of Measure'),
-                                store=True)
-    needed_qty = fields.Float("Needed qty.", readonly=False, multi=True,
-                              compute='_get_product_info_location',
+                                dp.get_precision('Product Unit of Measure'))
+    needed_qty = fields.Float("Needed qty.", readonly=False,
                               digits_compute=
-                              dp.get_precision('Product Unit of Measure'),
-                              store=True)
+                              dp.get_precision('Product Unit of Measure'))
     generated_by_id = fields.Many2one('stock.demand.estimate', 'Generated by',
                                       readonly=True)
     generated_by_ids = fields.Many2many(comodel_name='stock.demand.estimate',
@@ -213,9 +185,7 @@ class StockDemandEstimate(models.Model):
     rule_id = fields.Many2one('procurement.rule', 'Origin rule',
                                       readonly=True)
     action_needed = fields.Boolean('Action Neded')
-    action_needed_compute = fields.Boolean('Action Neded', multi=True,
-                                compute='_get_product_info_location',
-                                           store=True)
+    action_needed_compute = fields.Boolean('Action Neded', )
     procurement_id =  fields.Many2one('procurement.order', 'Procurement',
                                       readonly=True)
     executed = fields.Boolean('Action executed', default=False)
@@ -324,6 +294,7 @@ class StockDemandEstimate(models.Model):
                 exist_demand.indirect_demand_qty += needed_qty
                 exist_demand.write({'generated_by_ids': [(4, self.id)]})
                 demand = exist_demand
+
             else:
                 demand_period = self.period_id.id
                 if rules.delay:
@@ -342,6 +313,7 @@ class StockDemandEstimate(models.Model):
                      'action_needed': action_needed
                      }
                     )
+
         else:
             """Se busca la ruta del producto"""
             route_pulls = self.product_id.route_ids[0].pull_ids
@@ -357,6 +329,7 @@ class StockDemandEstimate(models.Model):
                     if pull.action == 'manufacture':
                         demand += self.create_bom_demands(needed_qty, pull.id)
                         break
+        demand.calculate_needs()
         return demand
 
     @api.multi

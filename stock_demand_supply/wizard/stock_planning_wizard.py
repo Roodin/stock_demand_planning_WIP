@@ -23,13 +23,14 @@ class WizStockMasterPlanning(models.TransientModel):
                                          time.strftime("%Y-%m-%d %H:%M:%S"))])
         demand_ids.write({'indirect_demand_qty': 0})
         demand_ids.write({'generated_by_ids': [(5, 0, 0)]})
+        demand_ids.calculate_needs()
 
         while demand_ids:
             new_demands = self.env['stock.demand.estimate']
             demand = demand_ids[0]
             _logger.info('Demanda recorrida de action_plan %s', demand.id)
             #new_detail = demand.create_detail()
-            demand.refresh()
+            demand.calculate_needs()
             if demand.needed_qty > 0 and demand.demand_type == 'stock':
                 new_demands = demand.explode_route(demand.needed_qty)
             demand_ids -= demand
@@ -37,4 +38,7 @@ class WizStockMasterPlanning(models.TransientModel):
             for new in new_demands:
                 if new.demand_type == 'stock':
                     demand_ids += new
+        demand_ids = demand_obj.search([('end_date', '>=',
+                                         time.strftime("%Y-%m-%d %H:%M:%S"))])
+        demand_ids.calculate_needs()
         return True
