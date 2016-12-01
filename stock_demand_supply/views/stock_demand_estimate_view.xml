@@ -41,7 +41,31 @@
         </record>
 
 
-     <record id="action_stock_planning_tree2" model="ir.actions.act_window">
+     
+
+        <record model="ir.ui.view" id="view_stock_planning_tree2" >
+            <field name="name">stock.planning.detail.tree2.view</field>
+            <field name="model">stock.demand.estimate</field>
+            <field name="field_parent">generated_by_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Stock demand">
+                    <field name="product_id"/>
+                    <field name="period_id"/>
+                    <field name="location_id"/>
+                    <field name="indirect_demand_qty"/>
+                    <field name="qty_available"/>
+                    <field name="incoming_qty"/>
+                    <field name="outgoing_qty"/>
+                    <field name="demand_qty"/>
+                    <field name="expected_qty"/>
+                    <field name="demand_type"/>
+                    <field name="needed_qty"/>
+                </tree>
+            </field>
+        </record>
+
+       
+       <record id="action_stock_planning_tree2" model="ir.actions.act_window">
             <field name="name">Supply Chain</field>
             <field name="res_model">stock.demand.estimate</field>
             <field name="view_type">tree</field>
@@ -85,29 +109,6 @@
                 </field>
             </field>
         </record>
-
-        <record model="ir.ui.view" id="view_stock_planning_tree2" >
-            <field name="name">stock.planning.detail.tree2.view</field>
-            <field name="model">stock.demand.estimate</field>
-            <field name="field_parent">generated_by_ids</field>
-            <field name="arch" type="xml">
-                <tree string="Stock demand">
-                    <field name="product_id"/>
-                    <field name="period_id"/>
-                    <field name="location_id"/>
-                    <field name="indirect_demand_qty"/>
-                    <field name="qty_available"/>
-                    <field name="incoming_qty"/>
-                    <field name="outgoing_qty"/>
-                    <field name="demand_qty"/>
-                    <field name="expected_qty"/>
-                    <field name="demand_type"/>
-                    <field name="needed_qty"/>
-                </tree>
-            </field>
-        </record>
-
-       
 
 
         <record model="ir.actions.act_window"
