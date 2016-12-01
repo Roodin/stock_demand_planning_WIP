@@ -40,6 +40,16 @@
             </field>
         </record>
 
+
+     <record id="action_stock_planning_tree2" model="ir.actions.act_window">
+            <field name="name">Supply Chain</field>
+            <field name="res_model">stock.demand.estimate</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_stock_planning_tree2"/>
+            <field name="context">{}</field>
+            <field name="domain">[('id','=',active_id)]</field>
+        </record>
+
         <record model="ir.ui.view" id="stock_planning_detail_tree_view" >
             <field name="name">stock.planning.detail.tree.view</field>
             <field name="model">stock.demand.estimate</field>
@@ -97,14 +107,7 @@
             </field>
         </record>
 
-        <record id="action_stock_planning_tree2" model="ir.actions.act_window">
-            <field name="name">Supply Chain</field>
-            <field name="res_model">stock.demand.estimate</field>
-            <field name="view_type">tree</field>
-            <field name="view_id" ref="view_stock_planning_tree2"/>
-            <field name="context">{}</field>
-            <field name="domain">[('id','=',active_id)]</field>
-        </record>
+       
 
 
         <record model="ir.actions.act_window"
