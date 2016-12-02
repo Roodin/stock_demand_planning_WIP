@@ -9,6 +9,7 @@ import openerp.addons.decimal_precision as dp
 from openerp.tools import float_compare, float_round
 import time
 import logging
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -61,9 +62,13 @@ class StockDemandEstimate(models.Model):
                      'to_date': demand.period_id.date_to}). \
                     browse(demand.product_id.id)
 
+                date_ini = fields.Date.to_string(
+                    fields.Date.from_string(demand.period_id.date_from) -
+                    relativedelta(days=1))
+
                 prod_ini = self.env['product.product'].with_context(
                     {'location': demand.location_id.id,
-                     'to_date': demand.period_id.date_from}). \
+                     'to_date': date_ini}). \
                     browse(demand.product_id.id)
 
                 prev_demand_ids = self.search(
