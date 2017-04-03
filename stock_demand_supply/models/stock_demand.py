@@ -323,7 +323,7 @@ class StockDemandEstimate(models.Model):
             """Se busca la ruta del producto"""
             route_pulls = self.product_id.route_ids[0].pull_ids
             pulls = route_pulls.filtered(
-                lambda r: r.action != 'move' and r.location_id == self.location_id.i)
+                lambda r: r.action != 'move' and r.location_id.id == self.location_id.id)
 
             for pull in pulls:
                 if pull.action == 'buy':
