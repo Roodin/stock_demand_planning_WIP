@@ -40,11 +40,22 @@ class StockDemandEstimate(models.Model):
                     lambda x: x.demand_type not in ['buy',
                                                     'manufacture']).sorted()\
                   + self.filtered(
-            lambda x: x.demand_type in ['buy','manufacture']).sorted()
+            lambda x: x.demand_type in ['buy', 'manufacture']).sorted()
         for demand in demands:
             _logger.info('Calculating values in period %s type %s for %s',
                          demand.period_id.name, demand.demand_type,
                          demand.product_id.name)
+            if demand.location_id.usage == 'view':
+                child_locations = tuple(demand.location_id.child_ids)
+                child_demand = self.filtered(lambda x: x.location_id in child_locations and
+                                             x.period_id == demand.period_id)
+                for child in child_demand:
+                    demand.indirect_demand_qty += child.demand_qty
+
+
+
+
+
             if demand.demand_type == 'stock':
                 prod = self.env['product.product'].with_context(
                     {'location': demand.location_id.id,
